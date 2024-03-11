@@ -3,6 +3,7 @@
     "next/core-web-vitals",
     "airbnb",
     "airbnb-typescript",
+    "plugin:@typescript-eslint/parser",
     "prettier"
   ],
   "parserOptions": {
