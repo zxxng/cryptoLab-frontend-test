@@ -1,12 +1,10 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Movie App',
-    template: '%s | Movie App',
-  },
+  title: 'Movie App',
   description: 'CryptoLab 프론트엔드 구현 과제',
 }
 
@@ -17,9 +15,17 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body>
-        <h1>프론트엔드 구현 과제 (유재영)</h1>
-        {children}
+      <body className="w-full h-screen">
+        <h1 className="w-full max-w-[1440px] h-[72px] mx-auto py-6 px-8 text-primar-01">
+          프론트엔드 구현 과제 (유재영)
+        </h1>
+        <section className="w-[1280px] h-4/5 mx-auto">{children}</section>
+        <footer className="flex flex-col gap-4 justify-center items-center p-8 border-t-[1px] border-t-gray-05">
+          <Image src="/HEAAN_Logo.svg" alt="logo" width={196} height={56} />
+          <p className="text-gray-04 text-sm">
+            © 2024 CryptoLab Inc. All Rights Reserved
+          </p>
+        </footer>
       </body>
     </html>
   )
