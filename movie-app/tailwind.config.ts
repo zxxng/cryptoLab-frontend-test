@@ -22,6 +22,11 @@ const config: Config = {
         'gray-04': '#9e9ea4',
         'gray-05': '#d7d7d7',
         'gray-06': '#eeeeee',
+        'secondary-01': '#35c5ed',
+      },
+      fontFamily: {
+        suit: 'SUIT-Regular',
+        pretendard: 'Pretendard-Regular',
       },
     },
   },
