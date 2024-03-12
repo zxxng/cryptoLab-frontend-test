@@ -17,14 +17,14 @@ const MovieCard = ({ movieData }: MovieCardProps) => {
     const stars = []
 
     for (let i = 0; i < fullStars; i++) {
-      stars.push(<SvgIcon.filledStar color="white" />)
+      stars.push(<SvgIcon.filledStar color="white" key={`filled_${i}`} />)
     }
 
     if (halfStarNeeded) {
-      stars.push(<SvgIcon.harfStar color="white" />)
+      stars.push(<SvgIcon.harfStar color="white" key="half_star" />)
     }
 
-    return <div>{stars}</div>
+    return <span>{stars}</span>
   }
 
   return (

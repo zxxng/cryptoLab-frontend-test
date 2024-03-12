@@ -21,7 +21,13 @@ const RootLayout = ({
         </h1>
         <main className="w-[1280px] mx-auto">{children}</main>
         <footer className="flex flex-col gap-4 justify-center items-center p-8 border-t-[1px] border-t-gray-05">
-          <Image src="/HEAAN_Logo.svg" alt="logo" width={196} height={56} />
+          <Image
+            src="/HEAAN_Logo.svg"
+            alt="logo"
+            width={196}
+            height={56}
+            priority
+          />
           <p className="text-gray-04 text-sm">
             © 2024 CryptoLab Inc. All Rights Reserved
           </p>
