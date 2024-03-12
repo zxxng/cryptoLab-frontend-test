@@ -36,6 +36,7 @@ const MovieListPage = () => {
     <>
       <MenuBar></MenuBar>
       <section className="flex flex-wrap gap-4">
+        <h2 className="sr-only">영화 목록</h2>
         {data &&
           data.results.map((e) => {
             return <MovieCard movieData={e}></MovieCard>
