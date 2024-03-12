@@ -3,10 +3,12 @@
 import React, { useEffect, useState } from 'react'
 import MenuBar from './_components/MenuBar'
 import MovieCard from './_components/MovieCard'
+import PageBar from './_components/PageBar'
 import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
 
 const MovieListPage = () => {
   const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   useEffect(() => {
     const options = {
@@ -19,7 +21,7 @@ const MovieListPage = () => {
     }
 
     fetch(
-      'https://api.themoviedb.org/3/trending/movie/day?language=en-US',
+      `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}`,
       options,
     )
       .then((response) => {
@@ -30,7 +32,7 @@ const MovieListPage = () => {
       })
       .then((response) => setData(response))
       .catch((err) => console.error(err))
-  }, [])
+  }, [currentPage])
 
   return (
     <>
@@ -39,9 +41,14 @@ const MovieListPage = () => {
         <h2 className="sr-only">영화 목록</h2>
         {data &&
           data.results.map((e) => {
-            return <MovieCard movieData={e}></MovieCard>
+            return <MovieCard key={e.id} movieData={e}></MovieCard>
           })}
       </section>
+      <PageBar
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPage={data ? data.total_pages : 0}
+      ></PageBar>
     </>
   )
 }
