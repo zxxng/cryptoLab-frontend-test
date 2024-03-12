@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import MenuBar from './_components/MenuBar'
+import SelectBox from './_components/SelectBox'
 import MovieCard from './_components/MovieCard'
 import PageBar from './_components/PageBar'
 import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
@@ -37,6 +38,7 @@ const MovieListPage = () => {
   return (
     <>
       <MenuBar></MenuBar>
+      <SelectBox></SelectBox>
       <section className="flex flex-wrap gap-4">
         <h2 className="sr-only">영화 목록</h2>
         {data &&

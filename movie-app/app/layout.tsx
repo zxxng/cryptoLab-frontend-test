@@ -16,10 +16,10 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body className="w-full h-screen">
-        <h1 className="w-full max-w-[1440px] h-[72px] mx-auto py-6 px-8 text-primar-01 text-lg">
+        <h1 className="w-full max-w-[1440px] h-[72px] mx-auto py-6 px-8 text-primar-01 text-lg border-b-[1px] border-b-gray-05">
           프론트엔드 구현 과제 (유재영)
         </h1>
-        <main className="w-[1280px] mx-auto">{children}</main>
+        <main className="w-[1280px] mx-auto relative">{children}</main>
         <footer className="flex flex-col gap-4 justify-center items-center p-8 border-t-[1px] border-t-gray-05">
           <Image
             src="/HEAAN_Logo.svg"

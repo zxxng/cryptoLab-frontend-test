@@ -22,3 +22,7 @@ export interface trendingMovie {
   vote_average: number
   vote_count: number
 }
+
+export interface GenreMovie {
+  genres: { id: number; name: string }[]
+}
