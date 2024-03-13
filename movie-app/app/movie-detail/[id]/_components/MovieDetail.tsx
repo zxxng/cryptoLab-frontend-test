@@ -30,17 +30,12 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
       .then((response: MovieDetails) => setData(response))
       .catch((err) => console.error(err))
 
-    // TODO: 조회 오류 확인 필요
     fetch(
       `https://api.themoviedb.org/3/movie/${movieId}/account_states`,
       options,
     )
       .then((response) => response.json())
-      .then((response: AccountStates) => {
-        console.log(response)
-        console.log(response.favorite)
-        setIsFavorite(response.favorite)
-      })
+      .then((response: AccountStates) => setIsFavorite(response.favorite))
       .catch((err) => console.error(err))
   }, [movieId])
 
@@ -58,17 +53,15 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
       body: JSON.stringify({
         media_type: 'movie',
         media_id: movieId,
-        favorite: isFavorite,
+        favorite: !isFavorite,
       }),
     }
 
     fetch(`https://api.themoviedb.org/3/account/21090238/favorite`, options)
       .then((response) => response.json())
-      .then((response) => console.log(response))
+      .then((response) => console.log(response, '상태변경 성공!'))
       .catch((err) => console.error(err))
   }
-
-  console.log(data)
 
   return (
     <>
