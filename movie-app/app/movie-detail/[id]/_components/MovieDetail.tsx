@@ -70,7 +70,7 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
           <h3 className="font-suit text-2xl font-bold mt-9 mb-8 text-blue-01">
             {data.title}
           </h3>
-          <div className="flex gap-8">
+          <div className="flex gap-8 h-[490px]">
             <Image
               className="rounded-lg shadow-inner"
               src={`https://image.tmdb.org/t/p/w500${data?.poster_path}`}
@@ -78,15 +78,21 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
               width={350}
               height={490}
             />
-            <div className="w-[770px] h-[490px] border-[1px] rounded-lg border-gray-04 p-4 relative">
+            <div className="w-[770px] h-[490px] border-[1px] rounded-lg border-gray-04 p-4 relative text-sm">
               <p className="mb-2">
-                Rate. {`(${data.vote_average.toFixed(2)})`}
+                Rate.{' '}
+                <span className="text-gray-03">{`(${data.vote_average.toFixed(2)})`}</span>
                 <RatingStars rate={data.vote_average} color="#531fc2" />
               </p>
               <p>Release Date. {data.release_date.replaceAll('-', '.')}</p>
               <p className="my-4">
                 {data.genres.map((genre) => {
-                  return <span key={genre.id}>{`# ${genre.name}`}</span>
+                  return (
+                    <span
+                      className="bg-gray-06 text-gray-03 p-2 rounded-full mr-2"
+                      key={genre.id}
+                    >{`# ${genre.name}`}</span>
+                  )
                 })}
               </p>
               <p>{data.overview}</p>

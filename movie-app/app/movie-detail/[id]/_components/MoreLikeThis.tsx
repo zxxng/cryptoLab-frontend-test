@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PATH } from '@/constants/appNavigation'
 import { useRouter } from 'next/navigation'
+import SvgIcon from '@/app/_components/SvgIcon'
 
 interface MoreLikeThisProps {
   movieId: string
@@ -33,10 +34,9 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
   }, [])
 
   const handleGoToBack = () => {
-    router.back()
+    router.push(PATH.root)
   }
 
-  // TODO: Image size css 수정 필요
   return (
     <>
       {data ? (
@@ -45,20 +45,23 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
           <ul className="flex gap-4 overflow-x-scroll">
             {data?.results.slice(0, 20).map((e) => {
               return (
-                <li
-                  key={e.id}
-                  className="rounded-lg shadow-inner overflow-hidden relative"
-                >
+                <li key={e.id}>
                   <Link href={`${PATH.detail}/${e.id}`}>
-                    <Image
-                      src={`https://image.tmdb.org/t/p/w500${e.poster_path}`}
-                      alt={`${e.title} poster`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                    <p className="whitespace-nowrap text-ellipsis">{e.title}</p>
-                    <p>★ {e.vote_average.toFixed(1)}</p>
+                    <div className="block w-[210px] h-[294px] rounded-lg shadow-inner relative">
+                      <Image
+                        src={`https://image.tmdb.org/t/p/w500${e.poster_path}`}
+                        alt={`${e.title} poster`}
+                        className="object-cover rounded-lg"
+                        fill
+                      />
+                    </div>
+                    <p className="w-[210px] overflow-hidden whitespace-nowrap text-ellipsis mt-2 mb-1">
+                      {e.title}
+                    </p>
+                    <p className="flex items-center text-gray-03 text-xs">
+                      <SvgIcon.filledStar color="#531fc2" />
+                      {e.vote_average.toFixed(1)}
+                    </p>
                   </Link>
                 </li>
               )
