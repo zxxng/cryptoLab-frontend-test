@@ -1,43 +1,26 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import { GENRES } from '@/constants/genres'
-import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { PATH } from '@/constants/appNavigation'
 
-interface SelectBoxProps {
-  setData: React.Dispatch<
-    React.SetStateAction<ApiResponse<trendingMovie> | null>
-  >
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
-}
-const SelectBox = ({ setData, setCurrentPage }: SelectBoxProps) => {
+const SelectBox = () => {
+  const router = useRouter()
+  const genre = useSearchParams().get('genre')
   const [selected, setSelected] = useState<string>('Trending')
+  const displayedGenresIds = [28, 12, 16, 35, 80, 99, 18, 10751, 14]
 
   useEffect(() => {
-    setCurrentPage(1)
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
-      },
-    }
-
-    if (selected !== 'Trending') {
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/discover/movie?with_genres=${selected}`,
-        options,
-      )
-        .then((response) => response.json())
-        .then((response) => setData(response))
-        .catch((err) => console.error(err))
-    }
-  }, [selected])
-
-  const displayedGenresIds = [28, 12, 16, 35, 80, 99, 18, 10751, 14]
+    setSelected(genre ? genre : 'Trending')
+  }, [genre])
 
   return (
     <div className="absolute top-0 right-0">
-      <select value={selected} onChange={(e) => setSelected(e.target.value)}>
+      <select
+        value={selected}
+        onChange={(e) => router.push(`${PATH.root}?genre=${e.target.value}`)}
+      >
         <option key={0} value="Trending">
           Trending
         </option>

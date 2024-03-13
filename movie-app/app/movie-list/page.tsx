@@ -14,10 +14,13 @@ const MovieListPage = () => {
   const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null)
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null)
   const menu = searchParams.get('menu')
+  const genre = searchParams.get('genre')
 
   useEffect(() => {
     setSelectedMenu(menu)
+    setSelectedGenre(genre)
   }, [searchParams])
 
   useEffect(() => {
@@ -42,6 +45,14 @@ const MovieListPage = () => {
         })
         .then((response) => setData(response))
         .catch((err) => console.error(err))
+    } else if (selectedGenre) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/discover/movie?with_genres=${selectedGenre}`,
+        options,
+      )
+        .then((response) => response.json())
+        .then((response) => setData(response))
+        .catch((err) => console.error(err))
     } else {
       fetch(
         `${process.env.NEXT_PUBLIC_API_END_POINT}/trending/movie/day?language=en-US&page=${currentPage}`,
@@ -56,14 +67,12 @@ const MovieListPage = () => {
         .then((response) => setData(response))
         .catch((err) => console.error(err))
     }
-  }, [currentPage, selectedMenu])
+  }, [currentPage, selectedMenu, selectedGenre])
 
   return (
     <>
       <MenuBar />
-      {!selectedMenu && (
-        <SelectBox setData={setData} setCurrentPage={setCurrentPage} />
-      )}
+      {!selectedMenu && <SelectBox />}
       <section className="flex flex-wrap gap-4">
         <h2 className="sr-only">영화 목록</h2>
         {data &&
