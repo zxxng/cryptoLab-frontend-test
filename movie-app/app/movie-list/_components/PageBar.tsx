@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import SvgIcon from '@/app/_components/SvgIcon'
-import Image from 'next/image'
 
 interface PageBarProps {
   currentPage: number
@@ -9,9 +8,30 @@ interface PageBarProps {
 }
 
 const PageBar = ({ currentPage, setCurrentPage, totalPage }: PageBarProps) => {
-  const [pageRange, setPageRange] = useState<number[]>([1, 2, 3, 4, 5])
+  const [pageRange, setPageRange] = useState<number[]>([])
 
-  useEffect(() => {}, [currentPage])
+  useEffect(() => {
+    const calculatePageRange = () => {
+      let startPage = currentPage - 2
+      let endPage = currentPage + 2
+      if (startPage < 1) {
+        startPage = 1
+        endPage = Math.min(5, totalPage)
+      }
+      if (endPage > totalPage) {
+        endPage = totalPage
+        startPage = Math.max(1, totalPage - 4)
+      }
+
+      const newPageRange = []
+      for (let i = startPage; i <= endPage; i++) {
+        newPageRange.push(i)
+      }
+      setPageRange(newPageRange)
+    }
+
+    calculatePageRange()
+  }, [currentPage, totalPage])
 
   const handlePageNumber = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -22,19 +42,11 @@ const PageBar = ({ currentPage, setCurrentPage, totalPage }: PageBarProps) => {
     setCurrentPage(parseInt(target.textContent, 10))
   }
 
-  const calculateRange = (calculateNumber: number) => {
-    const newRange = pageRange.map((number) => {
-      return number + calculateNumber
-    })
-    setPageRange(newRange)
-  }
-
   return (
     <nav className="text-center mt-8 mb-12 text-gray-03">
       <SvgIcon.pageMoveArrow
         onClick={() => {
           setCurrentPage(1)
-          setPageRange([1, 2, 3, 4, 5])
         }}
         double={true}
         alt="처음으로"
@@ -44,8 +56,6 @@ const PageBar = ({ currentPage, setCurrentPage, totalPage }: PageBarProps) => {
           const moveNumber = currentPage - 1
           if (moveNumber < 1) return
           setCurrentPage(moveNumber)
-          if (pageRange.includes(moveNumber)) return
-          if (moveNumber < pageRange[0]) calculateRange(-5)
         }}
         alt="앞으로"
       />
@@ -65,8 +75,6 @@ const PageBar = ({ currentPage, setCurrentPage, totalPage }: PageBarProps) => {
           const moveNumber = currentPage + 1
           if (moveNumber > totalPage) return
           setCurrentPage(moveNumber)
-          if (pageRange.includes(moveNumber)) return
-          if (moveNumber > pageRange[4]) calculateRange(5)
         }}
         reverse={true}
         alt="뒤로"
@@ -74,15 +82,6 @@ const PageBar = ({ currentPage, setCurrentPage, totalPage }: PageBarProps) => {
       <SvgIcon.pageMoveArrow
         onClick={() => {
           setCurrentPage(totalPage)
-          const maxRangeNums = 5
-          const lastPageRangeStart = Math.max(totalPage - maxRangeNums + 1, 1)
-          const newPageRange = []
-
-          for (let i = lastPageRangeStart; i <= totalPage; i++) {
-            newPageRange.push(i)
-          }
-
-          setPageRange(newPageRange)
         }}
         reverse={true}
         double={true}

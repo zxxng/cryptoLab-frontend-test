@@ -7,11 +7,13 @@ interface SelectBoxProps {
   setData: React.Dispatch<
     React.SetStateAction<ApiResponse<trendingMovie> | null>
   >
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 }
-const SelectBox = ({ setData }: SelectBoxProps) => {
+const SelectBox = ({ setData, setCurrentPage }: SelectBoxProps) => {
   const [selected, setSelected] = useState<string>('Trending')
 
   useEffect(() => {
+    setCurrentPage(1)
     const options = {
       method: 'GET',
       headers: {

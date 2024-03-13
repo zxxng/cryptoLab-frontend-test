@@ -55,12 +55,14 @@ const MovieListPage = () => {
   return (
     <>
       <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      {selectedMenu === MENU.movie && <SelectBox setData={setData}></SelectBox>}
+      {selectedMenu === MENU.movie && (
+        <SelectBox setData={setData} setCurrentPage={setCurrentPage} />
+      )}
       <section className="flex flex-wrap gap-4">
         <h2 className="sr-only">영화 목록</h2>
         {data &&
           data.results.map((e) => {
-            return <MovieCard key={e.id} movieData={e}></MovieCard>
+            return <MovieCard key={e.id} movieData={e} />
           })}
       </section>
       <PageBar
