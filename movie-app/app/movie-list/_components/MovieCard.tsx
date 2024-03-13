@@ -2,6 +2,7 @@ import React from 'react'
 import type { trendingMovie } from '@/types/apiResponse'
 import Link from 'next/link'
 import RatingStars from '@/app/_components/RatingStars'
+import { GENRES } from '@/constants/genres'
 
 interface MovieCardProps {
   movieData: trendingMovie
@@ -10,6 +11,12 @@ interface MovieCardProps {
 const MovieCard = ({ movieData }: MovieCardProps) => {
   const formatReleaseDate = (data: string) => {
     return `(${data.split('-')[0]})`
+  }
+
+  const formatGenreData = (genres: number[]) => {
+    return genres.slice(0, 2).map((genre) => {
+      return GENRES[genre]
+    })
   }
 
   const validateMovieData = (data: trendingMovie) => {
@@ -48,7 +55,7 @@ const MovieCard = ({ movieData }: MovieCardProps) => {
                 {movieData.vote_average.toFixed(2)}
                 <RatingStars rate={movieData.vote_average} />
               </p>
-              <p>{`genres: ${movieData.genre_ids.join(', ')}`}</p>
+              <p>{`genres: ${formatGenreData(movieData.genre_ids).join(', ')}`}</p>
               <p className="line-clamp-[8] mb-1">{movieData.overview}</p>
               <Link
                 href={`/movie-detail/${movieData.id}`}
