@@ -47,26 +47,33 @@ const FilledStar = ({ color }: { color: string }) => {
   )
 }
 
-const HarfStar = ({ color }: { color: string }) => {
+const HarfStar = ({ color }: { color?: string }) => {
   return (
     <SvgIcon Component={HalfStarSvg} color={color} size={20} alt="반쪽 별" />
   )
 }
 
-const FilledHeart = ({ color }: { color: string }) => {
+const FavoriteToggle = ({
+  filled,
+  className,
+  color = '#531FC2',
+  onClick,
+}: {
+  filled: boolean
+  className: string
+  color?: string
+  onClick: () => void
+}) => {
   return (
-    <SvgIcon
-      Component={FilledHeartSvg}
-      color={color}
-      size={24}
-      alt="채워진 하트"
-    />
-  )
-}
-
-const EmptyHeart = ({ color }: { color: string }) => {
-  return (
-    <SvgIcon Component={EmptyHeartSvg} color={color} size={24} alt="빈 하트" />
+    <button onClick={onClick}>
+      <SvgIcon
+        Component={filled ? FilledHeartSvg : EmptyHeartSvg}
+        className={className}
+        color={color}
+        size={24}
+        alt="좋아요 버튼"
+      />
+    </button>
   )
 }
 
@@ -94,8 +101,7 @@ const pageMoveArrow = ({
 
 SvgIcon.filledStar = FilledStar
 SvgIcon.harfStar = HarfStar
-SvgIcon.filledHeart = FilledHeart
-SvgIcon.emptyHeart = EmptyHeart
+SvgIcon.favoriteToggle = FavoriteToggle
 SvgIcon.pageMoveArrow = pageMoveArrow
 
 export default SvgIcon

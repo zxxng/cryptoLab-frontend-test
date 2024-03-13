@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import type { MovieDetails } from '@/types/apiResponse'
+import type { MovieDetails, AccountStates } from '@/types/apiResponse'
 import RatingStars from '@/app/_components/RatingStars'
+import SvgIcon from '@/app/_components/SvgIcon'
 
 interface MovieDetailProps {
   movieId: string
@@ -9,6 +10,7 @@ interface MovieDetailProps {
 
 const MovieDetail = ({ movieId }: MovieDetailProps) => {
   const [data, setData] = useState<MovieDetails | null>(null)
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
   useEffect(() => {
     const options = {
@@ -25,9 +27,48 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
       options,
     )
       .then((response) => response.json())
-      .then((response) => setData(response))
+      .then((response: MovieDetails) => setData(response))
       .catch((err) => console.error(err))
-  }, [])
+
+    // TODO: 조회 오류 확인 필요
+    fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}/account_states`,
+      options,
+    )
+      .then((response) => response.json())
+      .then((response: AccountStates) => {
+        console.log(response)
+        console.log(response.favorite)
+        setIsFavorite(response.favorite)
+      })
+      .catch((err) => console.error(err))
+  }, [movieId])
+
+  const handleFavoriteToggle = () => {
+    setIsFavorite((prev) => !prev)
+
+    const options = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZjFmMjI5MWFjNmFlZWNmOTY1Njc1Yjk1YzIxYmU3YyIsInN1YiI6IjY1ZWVjYjMyMmIxMTNkMDE2M2Y4YzcyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0GdlqQ6AtnniLFPrwtEZnNk9XHDMNLyktT-iZvX9-cQ',
+      },
+      body: JSON.stringify({
+        media_type: 'movie',
+        media_id: movieId,
+        favorite: isFavorite,
+      }),
+    }
+
+    fetch(`https://api.themoviedb.org/3/account/21090238/favorite`, options)
+      .then((response) => response.json())
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err))
+  }
+
+  console.log(data)
 
   return (
     <>
@@ -44,7 +85,7 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
               width={350}
               height={490}
             />
-            <div className="w-[770px] h-[490px] border-[1px] rounded-lg border-gray-04 p-4">
+            <div className="w-[770px] h-[490px] border-[1px] rounded-lg border-gray-04 p-4 relative">
               <p className="mb-2">
                 Rate. {`(${data.vote_average.toFixed(2)})`}
                 <RatingStars rate={data.vote_average} color="#531fc2" />
@@ -56,6 +97,11 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
                 })}
               </p>
               <p>{data.overview}</p>
+              <SvgIcon.favoriteToggle
+                className="absolute top-4 right-4"
+                filled={isFavorite}
+                onClick={handleFavoriteToggle}
+              />
             </div>
           </div>
         </section>
