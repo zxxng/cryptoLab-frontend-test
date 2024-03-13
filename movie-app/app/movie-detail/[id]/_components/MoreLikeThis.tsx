@@ -57,6 +57,12 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
               )
             })}
           </ul>
+          <Link
+            href="/movie-list"
+            className="flex justify-center items-center w-[360px] h-[42px] bg-gray-04 mx-auto rounded-lg text-white font-normal mt-8 mb-16"
+          >
+            Back to List
+          </Link>
         </section>
       ) : (
         <p>데이터 로딩중입니다</p>
