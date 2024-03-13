@@ -16,13 +16,12 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZjFmMjI5MWFjNmFlZWNmOTY1Njc1Yjk1YzIxYmU3YyIsInN1YiI6IjY1ZWVjYjMyMmIxMTNkMDE2M2Y4YzcyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0GdlqQ6AtnniLFPrwtEZnNk9XHDMNLyktT-iZvX9-cQ',
+        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
       },
     }
 
     fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+      `${process.env.NEXT_PUBLIC_API_END_POINT}/movie/${movieId}?language=en-US`,
       options,
     )
       .then((response) => response.json())

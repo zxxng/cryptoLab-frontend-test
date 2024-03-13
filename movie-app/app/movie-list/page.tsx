@@ -25,14 +25,13 @@ const MovieListPage = () => {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZjFmMjI5MWFjNmFlZWNmOTY1Njc1Yjk1YzIxYmU3YyIsInN1YiI6IjY1ZWVjYjMyMmIxMTNkMDE2M2Y4YzcyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0GdlqQ6AtnniLFPrwtEZnNk9XHDMNLyktT-iZvX9-cQ',
+        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
       },
     }
 
     if (selectedMenu === MENU.favorite) {
       fetch(
-        'https://api.themoviedb.org/3/account/21090238/favorite/movies?language=en-US&page=1&sort_by=created_at.asc',
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/account/21090238/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`,
         options,
       )
         .then((response) => {
@@ -45,7 +44,7 @@ const MovieListPage = () => {
         .catch((err) => console.error(err))
     } else {
       fetch(
-        `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}`,
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/trending/movie/day?language=en-US&page=${currentPage}`,
         options,
       )
         .then((response) => {

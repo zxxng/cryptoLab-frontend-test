@@ -18,18 +18,19 @@ const SelectBox = ({ setData, setCurrentPage }: SelectBoxProps) => {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZjFmMjI5MWFjNmFlZWNmOTY1Njc1Yjk1YzIxYmU3YyIsInN1YiI6IjY1ZWVjYjMyMmIxMTNkMDE2M2Y4YzcyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0GdlqQ6AtnniLFPrwtEZnNk9XHDMNLyktT-iZvX9-cQ',
+        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
       },
     }
 
-    fetch(
-      `https://api.themoviedb.org/3/discover/movie${selected !== 'Trending' ? `?with_genres=${selected}` : ''}`,
-      options,
-    )
-      .then((response) => response.json())
-      .then((response) => setData(response))
-      .catch((err) => console.error(err))
+    if (selected !== 'Trending') {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/discover/movie?with_genres=${selected}`,
+        options,
+      )
+        .then((response) => response.json())
+        .then((response) => setData(response))
+        .catch((err) => console.error(err))
+    }
   }, [selected])
 
   const displayedGenresIds = [28, 12, 16, 35, 80, 99, 18, 10751, 14]

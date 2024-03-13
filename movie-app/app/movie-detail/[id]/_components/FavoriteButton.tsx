@@ -20,13 +20,12 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZjFmMjI5MWFjNmFlZWNmOTY1Njc1Yjk1YzIxYmU3YyIsInN1YiI6IjY1ZWVjYjMyMmIxMTNkMDE2M2Y4YzcyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0GdlqQ6AtnniLFPrwtEZnNk9XHDMNLyktT-iZvX9-cQ',
+        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
       },
     }
 
     fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/account_states`,
+      `${process.env.NEXT_PUBLIC_API_END_POINT}/movie/${movieId}/account_states`,
       options,
     )
       .then((response) => response.json())
@@ -42,8 +41,7 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZjFmMjI5MWFjNmFlZWNmOTY1Njc1Yjk1YzIxYmU3YyIsInN1YiI6IjY1ZWVjYjMyMmIxMTNkMDE2M2Y4YzcyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0GdlqQ6AtnniLFPrwtEZnNk9XHDMNLyktT-iZvX9-cQ',
+        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
       },
       body: JSON.stringify({
         media_type: 'movie',
@@ -52,10 +50,10 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
       }),
     }
 
-    fetch(`https://api.themoviedb.org/3/account/21090238/favorite`, options)
-      .then((response) => response.json())
-      .then((response) => console.log(response, '상태변경 성공!'))
-      .catch((err) => console.error(err))
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_END_POINT}/account/21090238/favorite`,
+      options,
+    ).catch((err) => console.error(err))
 
     setIsModalVisible(true)
   }
