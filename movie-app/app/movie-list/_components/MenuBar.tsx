@@ -1,4 +1,5 @@
 import React from 'react'
+import { MENU } from '@/constants/appNavigation'
 
 interface MenuBarProps {
   selectedMenu: string
@@ -18,15 +19,15 @@ const MenuBar = ({ selectedMenu, setSelectedMenu }: MenuBarProps) => {
     <div className="font-suit text-2xl font-bold mt-9 mb-8">
       <button
         onClick={(e) => handleSelectedMenu(e)}
-        className={`${selectedMenu === 'Movie List' ? 'text-blue-01' : 'text-gray-04'} hover:text-blue-01 mr-8`}
+        className={`${selectedMenu === MENU.movie ? 'text-blue-01' : 'text-gray-04'} hover:text-blue-01 mr-8`}
       >
-        Movie List
+        {MENU.movie}
       </button>
       <button
         onClick={(e) => handleSelectedMenu(e)}
-        className={`${selectedMenu === 'My Favorite List' ? 'text-blue-01' : 'text-gray-04'} hover:text-blue-01`}
+        className={`${selectedMenu === MENU.favorite ? 'text-blue-01' : 'text-gray-04'} hover:text-blue-01`}
       >
-        My Favorite List
+        {MENU.favorite}
       </button>
     </div>
   )

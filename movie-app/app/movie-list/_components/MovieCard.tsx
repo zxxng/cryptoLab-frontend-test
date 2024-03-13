@@ -3,6 +3,7 @@ import type { trendingMovie } from '@/types/apiResponse'
 import Link from 'next/link'
 import RatingStars from '@/app/_components/RatingStars'
 import { GENRES } from '@/constants/genres'
+import { PATH } from '@/constants/appNavigation'
 
 interface MovieCardProps {
   movieData: trendingMovie
@@ -58,7 +59,7 @@ const MovieCard = ({ movieData }: MovieCardProps) => {
               <p>{`genres: ${formatGenreData(movieData.genre_ids).join(', ')}`}</p>
               <p className="line-clamp-[8] mb-1">{movieData.overview}</p>
               <Link
-                href={`/movie-detail/${movieData.id}`}
+                href={`${PATH.detail}/${movieData.id}`}
                 className="w-full text-right"
               >
                 View Details

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
 import Image from 'next/image'
 import Link from 'next/link'
+import { PATH } from '@/constants/appNavigation'
 
 interface MoreLikeThisProps {
   movieId: string
@@ -42,7 +43,7 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
                   key={e.id}
                   className="rounded-lg shadow-inner overflow-hidden relative"
                 >
-                  <Link href={`/movie-detail/${e.id}`}>
+                  <Link href={`${PATH.detail}/${e.id}`}>
                     <Image
                       src={`https://image.tmdb.org/t/p/w500${e.poster_path}`}
                       alt={`${e.title} poster`}
@@ -58,7 +59,7 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
             })}
           </ul>
           <Link
-            href="/movie-list"
+            href={PATH.root}
             className="flex justify-center items-center w-[360px] h-[42px] bg-gray-04 mx-auto rounded-lg text-white font-normal mt-8 mb-16"
           >
             Back to List

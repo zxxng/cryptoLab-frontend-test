@@ -6,11 +6,12 @@ import SelectBox from './_components/SelectBox'
 import MovieCard from './_components/MovieCard'
 import PageBar from './_components/PageBar'
 import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
+import { MENU } from '@/constants/appNavigation'
 
 const MovieListPage = () => {
   const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [selectedMenu, setSelectedMenu] = useState<string>('Movie List')
+  const [selectedMenu, setSelectedMenu] = useState<string>(MENU.movie)
 
   useEffect(() => {
     const options = {
@@ -22,7 +23,7 @@ const MovieListPage = () => {
       },
     }
 
-    if (selectedMenu === 'Movie List') {
+    if (selectedMenu === MENU.movie) {
       fetch(
         `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}`,
         options,
@@ -54,9 +55,7 @@ const MovieListPage = () => {
   return (
     <>
       <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      {selectedMenu === 'Movie List' && (
-        <SelectBox setData={setData}></SelectBox>
-      )}
+      {selectedMenu === MENU.movie && <SelectBox setData={setData}></SelectBox>}
       <section className="flex flex-wrap gap-4">
         <h2 className="sr-only">영화 목록</h2>
         {data &&
