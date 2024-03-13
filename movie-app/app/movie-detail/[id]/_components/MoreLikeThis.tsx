@@ -3,12 +3,14 @@ import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PATH } from '@/constants/appNavigation'
+import { useRouter } from 'next/navigation'
 
 interface MoreLikeThisProps {
   movieId: string
 }
 
 const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
+  const router = useRouter()
   const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
 
   useEffect(() => {
@@ -29,6 +31,10 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
       .then((response) => setData(response))
       .catch((err) => console.error(err))
   }, [])
+
+  const handleGoToBack = () => {
+    router.back()
+  }
 
   // TODO: Image size css 수정 필요
   return (
@@ -58,12 +64,12 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
               )
             })}
           </ul>
-          <Link
-            href={PATH.root}
+          <button
+            onClick={handleGoToBack}
             className="flex justify-center items-center w-[360px] h-[42px] bg-gray-04 mx-auto rounded-lg text-white font-normal mt-8 mb-16"
           >
             Back to List
-          </Link>
+          </button>
         </section>
       ) : (
         <p>데이터 로딩중입니다</p>
