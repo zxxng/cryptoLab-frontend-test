@@ -13,7 +13,7 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
   const [data, setData] = useState<MovieDetails | null>(null)
 
   useEffect(() => {
-    apiClient.fetchMovieDetailData(movieId, setData)
+    apiClient.getMovieDetail(movieId, setData)
   }, [movieId])
 
   return (

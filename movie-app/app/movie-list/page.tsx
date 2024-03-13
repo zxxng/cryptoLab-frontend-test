@@ -26,11 +26,11 @@ const MovieListPage = () => {
 
   useEffect(() => {
     if (selectedMenu === MENU.favorite) {
-      apiClient.fetchFavoriteData(setData)
+      apiClient.getFavorite(setData)
     } else if (selectedGenre && selectedGenre !== 'Trending') {
-      apiClient.fetchGenreData(selectedGenre, setData)
+      apiClient.getGenre(selectedGenre, setData)
     } else {
-      apiClient.fetchTrendingData(currentPage, setData)
+      apiClient.getTrending(currentPage, setData)
     }
   }, [currentPage, selectedMenu, selectedGenre])
 

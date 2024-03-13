@@ -16,7 +16,7 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
   const [data, setData] = useState<ApiResponse<Movie> | null>(null)
 
   useEffect(() => {
-    apiClient.fetchRecommendationsData(movieId, setData)
+    apiClient.getRecommendations(movieId, setData)
   }, [])
 
   const handleGoToBack = () => {

@@ -16,32 +16,12 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   useEffect(() => {
-    apiClient.fetchAccountStates(movieId, setIsFavorite)
+    apiClient.getAccountStates(movieId, setIsFavorite)
   }, [movieId])
 
   const handleFavoriteToggle = () => {
     setIsFavorite((prev) => !prev)
-
-    const options = {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
-      },
-      body: JSON.stringify({
-        media_type: 'movie',
-        media_id: movieId,
-        favorite: !isFavorite,
-      }),
-    }
-
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/account/21090238/favorite`,
-      options,
-    ).catch((err) => console.error(err))
-
-    setIsModalVisible(true)
+    apiClient.postFavoriteStatus(movieId, isFavorite, setIsModalVisible)
   }
 
   const handleModalClose = () => {
