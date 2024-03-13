@@ -10,6 +10,7 @@ import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
 const MovieListPage = () => {
   const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [selectedMenu, setSelectedMenu] = useState<string>('Movie List')
 
   useEffect(() => {
     const options = {
@@ -21,23 +22,41 @@ const MovieListPage = () => {
       },
     }
 
-    fetch(
-      `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}`,
-      options,
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-        return response.json()
-      })
-      .then((response) => setData(response))
-      .catch((err) => console.error(err))
-  }, [currentPage])
+    if (selectedMenu === 'Movie List') {
+      fetch(
+        `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}`,
+        options,
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          return response.json()
+        })
+        .then((response) => setData(response))
+        .catch((err) => console.error(err))
+    } else {
+      fetch(
+        'https://api.themoviedb.org/3/account/21090238/favorite/movies?language=en-US&page=1&sort_by=created_at.asc',
+        options,
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          return response.json()
+        })
+        .then((response) => setData(response))
+        .catch((err) => console.error(err))
+    }
+  }, [currentPage, selectedMenu])
 
   return (
     <>
-      <MenuBar></MenuBar>
+      <MenuBar
+        selectedMenu={selectedMenu}
+        setSelectedMenu={setSelectedMenu}
+      ></MenuBar>
       <SelectBox></SelectBox>
       <section className="flex flex-wrap gap-4">
         <h2 className="sr-only">영화 목록</h2>
