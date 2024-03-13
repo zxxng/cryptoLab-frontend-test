@@ -8,6 +8,7 @@ import PageBar from './_components/PageBar'
 import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
 import { MENU } from '@/constants/appNavigation'
 import { useSearchParams } from 'next/navigation'
+import apiClient from '@/utils/apiClient'
 
 const MovieListPage = () => {
   const searchParams = useSearchParams()
@@ -24,48 +25,12 @@ const MovieListPage = () => {
   }, [searchParams])
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
-      },
-    }
-
     if (selectedMenu === MENU.favorite) {
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/account/21090238/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`,
-        options,
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok')
-          }
-          return response.json()
-        })
-        .then((response) => setData(response))
-        .catch((err) => console.error(err))
-    } else if (selectedGenre) {
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/discover/movie?with_genres=${selectedGenre}`,
-        options,
-      )
-        .then((response) => response.json())
-        .then((response) => setData(response))
-        .catch((err) => console.error(err))
+      apiClient.fetchFavoriteData(setData)
+    } else if (selectedGenre && selectedGenre !== 'Trending') {
+      apiClient.fetchGenreData(selectedGenre, setData)
     } else {
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/trending/movie/day?language=en-US&page=${currentPage}`,
-        options,
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok')
-          }
-          return response.json()
-        })
-        .then((response) => setData(response))
-        .catch((err) => console.error(err))
+      apiClient.fetchTrendingData(currentPage, setData)
     }
   }, [currentPage, selectedMenu, selectedGenre])
 

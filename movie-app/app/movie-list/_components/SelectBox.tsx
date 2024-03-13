@@ -7,7 +7,8 @@ import { PATH } from '@/constants/appNavigation'
 
 const SelectBox = () => {
   const router = useRouter()
-  const genre = useSearchParams().get('genre')
+  const searchParams = useSearchParams()
+  const genre = searchParams.get('genre')
   const [selected, setSelected] = useState<string>('Trending')
   const displayedGenresIds = [28, 12, 16, 35, 80, 99, 18, 10751, 14]
 

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { PATH } from '@/constants/appNavigation'
 import { useRouter } from 'next/navigation'
 import SvgIcon from '@/app/_components/SvgIcon'
+import apiClient from '@/utils/apiClient'
 
 interface MoreLikeThisProps {
   movieId: string
@@ -15,21 +16,7 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
   const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
-      },
-    }
-
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/movie/${movieId}/recommendations?language=en-US&page=1`,
-      options,
-    )
-      .then((response) => response.json())
-      .then((response) => setData(response))
-      .catch((err) => console.error(err))
+    apiClient.fetchRecommendationsData(movieId, setData)
   }, [])
 
   const handleGoToBack = () => {

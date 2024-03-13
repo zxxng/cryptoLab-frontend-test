@@ -14,7 +14,7 @@ const RootLayout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="w-full h-screen">
         <h1 className="w-full max-w-[1440px] h-[72px] mx-auto py-6 px-8 text-primar-01 text-lg border-b-[1px] border-b-gray-05">
           프론트엔드 구현 과제 (유재영)

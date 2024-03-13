@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import SvgIcon from '@/app/_components/SvgIcon'
-import type { AccountStates } from '@/types/apiResponse'
 import Modal from '../../../_components/Modal'
 import { useRouter } from 'next/navigation'
 import { PATH, MENU } from '@/constants/appNavigation'
+import apiClient from '@/utils/apiClient'
 
 interface FavoriteButtonProps {
   movieId: number
@@ -16,21 +16,7 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
-      },
-    }
-
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/movie/${movieId}/account_states`,
-      options,
-    )
-      .then((response) => response.json())
-      .then((response: AccountStates) => setIsFavorite(response.favorite))
-      .catch((err) => console.error(err))
+    apiClient.fetchAccountStates(movieId, setIsFavorite)
   }, [movieId])
 
   const handleFavoriteToggle = () => {

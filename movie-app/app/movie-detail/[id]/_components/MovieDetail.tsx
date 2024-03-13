@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import type { MovieDetails } from '@/types/apiResponse'
+import apiClient from '@/utils/apiClient'
 import RatingStars from '@/app/_components/RatingStars'
 import FavoriteButton from './FavoriteButton'
 
@@ -12,21 +13,7 @@ const MovieDetail = ({ movieId }: MovieDetailProps) => {
   const [data, setData] = useState<MovieDetails | null>(null)
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: process.env.NEXT_PUBLIC_API_TOKEN as string,
-      },
-    }
-
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/movie/${movieId}?language=en-US`,
-      options,
-    )
-      .then((response) => response.json())
-      .then((response: MovieDetails) => setData(response))
-      .catch((err) => console.error(err))
+    apiClient.fetchMovieDetailData(movieId, setData)
   }, [movieId])
 
   return (
