@@ -29,22 +29,6 @@ const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
       .catch((err) => console.error(err))
   }, [])
 
-  // useEffect(() => {
-  //   const options = {
-  //     method: 'GET',
-  //     headers: {
-  //       accept: 'application/json',
-  //       Authorization:
-  //         'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZjFmMjI5MWFjNmFlZWNmOTY1Njc1Yjk1YzIxYmU3YyIsInN1YiI6IjY1ZWVjYjMyMmIxMTNkMDE2M2Y4YzcyNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0GdlqQ6AtnniLFPrwtEZnNk9XHDMNLyktT-iZvX9-cQ',
-  //     },
-  //   }
-
-  //   fetch('https://api.themoviedb.org/3/configuration', options)
-  //     .then((response) => response.json())
-  //     .then((response) => console.log(response))
-  //     .catch((err) => console.error(err))
-  // }, [])
-
   // TODO: Image size css 수정 필요
   return (
     <>

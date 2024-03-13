@@ -1,10 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import type { GenreMovie } from '@/types/apiResponse'
+import { GENRES } from '@/constants/genres'
 
 const SelectBox = () => {
   const [selected, setSelected] = useState<string>('Trending')
-  const [genre, setGenre] = useState<GenreMovie | null>(null)
 
   useEffect(() => {
     const options = {
@@ -16,29 +15,29 @@ const SelectBox = () => {
       },
     }
 
-    fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options)
+    fetch(
+      `https://api.themoviedb.org/3/discover/movie${selected !== 'Trending' ? `?with_genres=${selected}` : ''}`,
+      options,
+    )
       .then((response) => response.json())
-      .then((response) => setGenre(response))
+      .then((response) => console.log(response))
       .catch((err) => console.error(err))
-  }, [])
+  }, [selected])
+
+  const displayedGenresIds = [28, 12, 16, 35, 80, 99, 18, 10751, 14]
 
   return (
     <div className="absolute top-0 right-0">
       <select value={selected} onChange={(e) => setSelected(e.target.value)}>
-        <option value="Trending">Trending</option>
-        <option value="Action">Action</option>
-        <option value="Adventure">Adventure</option>
-        <option value="Animation">Animation</option>
-        <option value="Comedy">Comedy</option>
-        <option value="Crime">Crime</option>
-        <option value="Documentary">Documentary</option>
-        <option value="Drama">Drama</option>
-        <option value="Family">Family</option>
-        <option value="Fantasy">Fantasy</option>
+        <option key={0} value="Trending">
+          Trending
+        </option>
+        {displayedGenresIds.map((id) => (
+          <option key={id} value={id}>
+            {GENRES[id]}
+          </option>
+        ))}
       </select>
-      {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <div className="h-4 w-4 transform rotate-45 border-b-2 border-r-2 border-gray-700"></div>
-      </div> */}
     </div>
   )
 }

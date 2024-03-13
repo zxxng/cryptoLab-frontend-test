@@ -23,10 +23,6 @@ export interface trendingMovie {
   vote_count: number
 }
 
-export interface GenreMovie {
-  genres: { id: number; name: string }[]
-}
-
 interface Genre {
   id: number
   name: string
