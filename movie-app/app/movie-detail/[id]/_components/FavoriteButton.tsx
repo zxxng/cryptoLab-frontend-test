@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import SvgIcon from '@/app/_components/SvgIcon'
 import type { AccountStates } from '@/types/apiResponse'
 import Modal from '../../../_components/Modal'
+import { useRouter } from 'next/navigation'
+import { PATH, MENU } from '@/constants/appNavigation'
 
 interface FavoriteButtonProps {
   movieId: number
@@ -9,6 +11,7 @@ interface FavoriteButtonProps {
 }
 
 const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
+  const router = useRouter()
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
@@ -61,6 +64,10 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
     setIsModalVisible(false)
   }
 
+  const handleModalConfirm = () => {
+    router.push(`${PATH.root}?menu=${MENU.favorite}`)
+  }
+
   return (
     <>
       <SvgIcon.favoriteToggle
@@ -68,12 +75,14 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
         filled={isFavorite}
         onClick={handleFavoriteToggle}
       />
-      <Modal
-        title={movieTitle}
-        isModalVisible={isModalVisible}
-        onClose={handleModalClose}
-      >
-        {isFavorite ? (
+
+      {isFavorite ? (
+        <Modal
+          title={movieTitle}
+          isModalVisible={isModalVisible}
+          onClose={handleModalClose}
+          onConfirm={handleModalConfirm}
+        >
           <p className="text-gray-01 text-sm text-center">
             선택한 영화가 My Favorite List에 추가되었습니다.
             <br />
@@ -82,12 +91,18 @@ const FavoriteButton = ({ movieId, movieTitle }: FavoriteButtonProps) => {
             <br />
             좋아요한 영화 목록을 확인할 수 있습니다.
           </p>
-        ) : (
+        </Modal>
+      ) : (
+        <Modal
+          title={movieTitle}
+          isModalVisible={isModalVisible}
+          onClose={handleModalClose}
+        >
           <p className="text-gray-01 text-sm text-center">
             선택한 영화가 My Favorite List에서 제거되었습니다.
           </p>
-        )}
-      </Modal>
+        </Modal>
+      )}
     </>
   )
 }

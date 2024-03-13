@@ -7,11 +7,18 @@ import MovieCard from './_components/MovieCard'
 import PageBar from './_components/PageBar'
 import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
 import { MENU } from '@/constants/appNavigation'
+import { useSearchParams } from 'next/navigation'
 
 const MovieListPage = () => {
+  const searchParams = useSearchParams()
   const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [selectedMenu, setSelectedMenu] = useState<string>(MENU.movie)
+  const [selectedMenu, setSelectedMenu] = useState<string | null>(null)
+  const menu = searchParams.get('menu')
+
+  useEffect(() => {
+    setSelectedMenu(menu)
+  }, [searchParams])
 
   useEffect(() => {
     const options = {
@@ -23,9 +30,9 @@ const MovieListPage = () => {
       },
     }
 
-    if (selectedMenu === MENU.movie) {
+    if (selectedMenu === MENU.favorite) {
       fetch(
-        `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}`,
+        'https://api.themoviedb.org/3/account/21090238/favorite/movies?language=en-US&page=1&sort_by=created_at.asc',
         options,
       )
         .then((response) => {
@@ -38,7 +45,7 @@ const MovieListPage = () => {
         .catch((err) => console.error(err))
     } else {
       fetch(
-        'https://api.themoviedb.org/3/account/21090238/favorite/movies?language=en-US&page=1&sort_by=created_at.asc',
+        `https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${currentPage}`,
         options,
       )
         .then((response) => {
@@ -54,8 +61,8 @@ const MovieListPage = () => {
 
   return (
     <>
-      <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      {selectedMenu === MENU.movie && (
+      <MenuBar />
+      {!selectedMenu && (
         <SelectBox setData={setData} setCurrentPage={setCurrentPage} />
       )}
       <section className="flex flex-wrap gap-4">

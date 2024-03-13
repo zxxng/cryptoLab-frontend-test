@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 
 interface ModalProps {
   title: string
@@ -12,7 +12,6 @@ const Modal = ({
   title,
   children,
   isModalVisible,
-
   onClose,
   onConfirm,
 }: ModalProps) => {
@@ -23,16 +22,16 @@ const Modal = ({
       <article className="flex flex-col items-center rounded-lg w-[560px] h-[273px] bg-white px-8 pt-8 pb-9">
         <p className="text-gray-01 text-lg font-medium mb-8">{title}</p>
         {children}
-        <div className="mt-auto">
+        <div className="flex gap-3 w-full mt-auto text-white">
           <button
-            className="w-full bg-gray-04 rounded-lg px-4 py-2"
+            className="inline-block w-full bg-gray-04 rounded-lg px-4 py-2"
             onClick={onClose}
           >
             닫기
           </button>
           {onConfirm && (
             <button
-              className="w-full bg-blue-02 rounded-lg px-4 py-2"
+              className="inline-block w-full bg-blue-02 rounded-lg px-4 py-2"
               onClick={onConfirm}
             >
               확인하기
