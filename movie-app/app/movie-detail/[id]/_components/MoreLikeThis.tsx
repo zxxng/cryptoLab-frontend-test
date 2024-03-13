@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
+import type { ApiResponse, Movie } from '@/types/apiResponse'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PATH } from '@/constants/appNavigation'
@@ -13,7 +13,7 @@ interface MoreLikeThisProps {
 
 const MoreLikeThis = ({ movieId }: MoreLikeThisProps) => {
   const router = useRouter()
-  const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
+  const [data, setData] = useState<ApiResponse<Movie> | null>(null)
 
   useEffect(() => {
     apiClient.fetchRecommendationsData(movieId, setData)

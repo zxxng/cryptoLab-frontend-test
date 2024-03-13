@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react'
 import { PATH, MENU } from '@/constants/appNavigation'
 import { useSearchParams } from 'next/navigation'

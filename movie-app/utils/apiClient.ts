@@ -1,12 +1,12 @@
 import type {
   ApiResponse,
-  trendingMovie,
+  Movie,
   MovieDetails,
   AccountStates,
 } from '@/types/apiResponse'
 
 type setDataType = React.Dispatch<
-  React.SetStateAction<ApiResponse<trendingMovie> | null>
+  React.SetStateAction<ApiResponse<Movie> | null>
 >
 const options = {
   method: 'GET',
@@ -71,9 +71,7 @@ const fetchMovieDetailData = (
 
 const fetchRecommendationsData = (
   movieId: string,
-  setData: React.Dispatch<
-    React.SetStateAction<ApiResponse<trendingMovie> | null>
-  >,
+  setData: React.Dispatch<React.SetStateAction<ApiResponse<Movie> | null>>,
 ) => {
   fetch(
     `${process.env.NEXT_PUBLIC_API_END_POINT}/movie/${movieId}/recommendations?language=en-US&page=1`,

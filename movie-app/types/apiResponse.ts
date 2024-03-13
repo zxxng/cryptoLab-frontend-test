@@ -5,7 +5,7 @@ export interface ApiResponse<T> {
   total_results: number
 }
 
-export interface trendingMovie {
+export interface Movie {
   adult: boolean
   backdrop_path: string
   id: number

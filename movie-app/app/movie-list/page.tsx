@@ -5,14 +5,14 @@ import MenuBar from './_components/MenuBar'
 import SelectBox from './_components/SelectBox'
 import MovieCard from './_components/MovieCard'
 import PageBar from './_components/PageBar'
-import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
+import type { ApiResponse, Movie } from '@/types/apiResponse'
 import { MENU } from '@/constants/appNavigation'
 import { useSearchParams } from 'next/navigation'
 import apiClient from '@/utils/apiClient'
 
 const MovieListPage = () => {
   const searchParams = useSearchParams()
-  const [data, setData] = useState<ApiResponse<trendingMovie> | null>(null)
+  const [data, setData] = useState<ApiResponse<Movie> | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null)
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null)

@@ -1,12 +1,12 @@
 import React from 'react'
-import type { trendingMovie } from '@/types/apiResponse'
+import type { Movie } from '@/types/apiResponse'
 import Link from 'next/link'
 import RatingStars from '@/app/_components/RatingStars'
 import { GENRES } from '@/constants/genres'
 import { PATH } from '@/constants/appNavigation'
 
 interface MovieCardProps {
-  movieData: trendingMovie
+  movieData: Movie
 }
 
 const MovieCard = ({ movieData }: MovieCardProps) => {
@@ -20,7 +20,7 @@ const MovieCard = ({ movieData }: MovieCardProps) => {
     })
   }
 
-  const validateMovieData = (data: trendingMovie) => {
+  const validateMovieData = (data: Movie) => {
     if (
       !data.poster_path ||
       !data.title ||
