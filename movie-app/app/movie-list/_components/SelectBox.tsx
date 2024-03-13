@@ -1,8 +1,14 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { GENRES } from '@/constants/genres'
+import type { ApiResponse, trendingMovie } from '@/types/apiResponse'
 
-const SelectBox = () => {
+interface SelectBoxProps {
+  setData: React.Dispatch<
+    React.SetStateAction<ApiResponse<trendingMovie> | null>
+  >
+}
+const SelectBox = ({ setData }: SelectBoxProps) => {
   const [selected, setSelected] = useState<string>('Trending')
 
   useEffect(() => {
@@ -20,7 +26,7 @@ const SelectBox = () => {
       options,
     )
       .then((response) => response.json())
-      .then((response) => console.log(response))
+      .then((response) => setData(response))
       .catch((err) => console.error(err))
   }, [selected])
 
