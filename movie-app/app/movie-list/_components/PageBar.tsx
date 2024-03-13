@@ -42,21 +42,20 @@ const PageBar = ({ currentPage, setCurrentPage, totalPage }: PageBarProps) => {
     setCurrentPage(parseInt(target.textContent, 10))
   }
 
+  const handlePageMove = (moveNumber: number) => {
+    if (moveNumber < 1 || moveNumber > totalPage) return
+    setCurrentPage(moveNumber)
+  }
+
   return (
     <nav className="text-center mt-8 mb-12 text-gray-03">
       <SvgIcon.pageMoveArrow
-        onClick={() => {
-          setCurrentPage(1)
-        }}
+        onClick={() => setCurrentPage(1)}
         double={true}
         alt="처음으로"
       />
       <SvgIcon.pageMoveArrow
-        onClick={() => {
-          const moveNumber = currentPage - 1
-          if (moveNumber < 1) return
-          setCurrentPage(moveNumber)
-        }}
+        onClick={() => handlePageMove(currentPage - 1)}
         alt="앞으로"
       />
       {pageRange.map((number) => {
@@ -71,18 +70,12 @@ const PageBar = ({ currentPage, setCurrentPage, totalPage }: PageBarProps) => {
         )
       })}
       <SvgIcon.pageMoveArrow
-        onClick={() => {
-          const moveNumber = currentPage + 1
-          if (moveNumber > totalPage) return
-          setCurrentPage(moveNumber)
-        }}
+        onClick={() => handlePageMove(currentPage + 1)}
         reverse={true}
         alt="뒤로"
       />
       <SvgIcon.pageMoveArrow
-        onClick={() => {
-          setCurrentPage(totalPage)
-        }}
+        onClick={() => setCurrentPage(totalPage)}
         reverse={true}
         double={true}
         alt="마지막으로"
