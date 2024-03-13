@@ -1,6 +1,7 @@
 import React from 'react'
 import type { trendingMovie } from '@/types/apiResponse'
-import SvgIcon from '@/app/_components/SvgIcon'
+import Link from 'next/link'
+import RatingStars from '@/app/_components/RatingStars'
 
 interface MovieCardProps {
   movieData: trendingMovie
@@ -9,22 +10,6 @@ interface MovieCardProps {
 const MovieCard = ({ movieData }: MovieCardProps) => {
   const formatReleaseDate = (data: string) => {
     return `(${data.split('-')[0]})`
-  }
-
-  const convertRatingToStars = (rate: number) => {
-    const fullStars = Math.floor(rate / 2)
-    const halfStarNeeded = rate % 2 >= 1
-    const stars = []
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<SvgIcon.filledStar color="white" key={`filled_${i}`} />)
-    }
-
-    if (halfStarNeeded) {
-      stars.push(<SvgIcon.harfStar color="white" key="half_star" />)
-    }
-
-    return <span>{stars}</span>
   }
 
   const validateMovieData = (data: trendingMovie) => {
@@ -61,11 +46,16 @@ const MovieCard = ({ movieData }: MovieCardProps) => {
             <div className="flex flex-col gap-1 text-sm">
               <p className="flex gap-1">
                 {movieData.vote_average.toFixed(2)}
-                {convertRatingToStars(movieData.vote_average)}
+                <RatingStars rate={movieData.vote_average} />
               </p>
               <p>{`genres: ${movieData.genre_ids.join(', ')}`}</p>
               <p className="line-clamp-[8] mb-1">{movieData.overview}</p>
-              <button className="w-full text-right">View Details</button>
+              <Link
+                href={`/movie-detail/${movieData.id}`}
+                className="w-full text-right"
+              >
+                View Details
+              </Link>
             </div>
           </div>
         </article>
